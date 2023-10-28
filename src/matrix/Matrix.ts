@@ -1,6 +1,7 @@
 import * as Factories from "./factories";
 import * as Parsers from "./parsers";
 import * as Output from "./output";
+import * as Math from "./math";
 
 
 /**
@@ -9,6 +10,8 @@ import * as Output from "./output";
 namespace Matrix {
     /**
      * Matrix object
+     * 
+     * Warning: Matrix object should not be created manually. If you make Matrix object manually, the behaviour is undefined.
      */
     export type Matrix = {
         data: number[],
@@ -18,7 +21,7 @@ namespace Matrix {
     /**
      * Creates matrix object from deeply nested arrays.
      * @param {any[]} data - Deeply nested array
-     * @returns {(Matrix.Matrix | null)} Matrix on success and null on fail
+     * @returns {Result<Matrix.Matrix>} Parsed matrix
      * 
      * Warning: Empty arrays are not allowed. Use the explicit empty factory instead.
      */
@@ -49,6 +52,51 @@ namespace Matrix {
      * @returns {string} Stream of characters.
      */
     export var to_string = Output.to_string;
+
+    /**
+     * Performs element-wise addition. Parameters can be Matrix references or numbers.
+     * 
+     * When adding two numbers, this function returns a matrix with size 1.
+     * 
+     * @returns {Result<Matrix.Matrix>} Addition result
+     */
+    export var add: Math.MatrixElementWiseOperation = (a, b) => { return Math.element_math_operation(a, b, (a, b) => { return a + b; }); };
+
+    /**
+     * Performs element-wise subtraction. Parameters can be Matrix references or numbers.
+     * 
+     * When subtracting two numbers, this function returns a matrix with size 1.
+     * 
+     * @returns {Result<Matrix.Matrix>} Subtraction result
+     */
+    export var subtraction: Math.MatrixElementWiseOperation = (a, b) => { return Math.element_math_operation(a, b, (a, b) => { return a - b; }); };
+
+    /**
+     * Performs element-wise multiplication. Parameters can be Matrix references or numbers.
+     * 
+     * When multiplying two numbers, this function returns a matrix with size 1.
+     * 
+     * @returns {Result<Matrix.Matrix>} Multiplication result
+     */
+    export var element_multiply: Math.MatrixElementWiseOperation = (a, b) => { return Math.element_math_operation(a, b, (a, b) => { return a * b; }); };
+
+    /**
+     * Performs division. Parameters can be Matrix references or numbers.
+     * 
+     * When dividing two numbers, this function returns a matrix with size 1.
+     * 
+     * @returns {Result<Matrix.Matrix>} Division result
+     */
+    export var element_divide: Math.MatrixElementWiseOperation = (a, b) => { return Math.element_math_operation(a, b, (a, b) => { return a / b; }); };
+
+    /**
+     * Performs standard matrix multiplication. Parameters can be Matrix references or numbers.
+     * 
+     * When multiplying two numbers, this function returns a matrix with size 1.
+     * 
+     * @returns {Result<Matrix.Matrix>} Multiplication result
+     */
+    export var multiply = Math.multiply;
 }
 
 
